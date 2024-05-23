@@ -1,0 +1,17 @@
+# used in
+# https://gitlab.com/redhat/centos-stream/luksmeta/-/tree/c10s
+
+summary: rpmverify test
+
+execute:
+    how: tmt
+
+discover:
+
+  - name: test
+    how: shell
+    tests:
+      - name: rpmverify
+        test: 'rpmverify $(rpm -qa | grep luksmeta)'
+        duration: 2m
+

@@ -1,0 +1,27 @@
+# used in
+# https://gitlab.com/redhat/centos-stream/rpms/luksmeta/-/tree/c10s
+summary: test plan for luksmeta gating testing
+
+prepare:
+  - how: shell
+    script:
+     - systemctl disable --now dnf-makecache.service || true
+     - systemctl disable --now dnf-makecache.timer || true
+     - dnf makecache
+
+discover:
+  - name: Upstream_tests_clevis
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/clevis-tests
+    test:
+      - /Sanity/pin-sss
+      - /Sanity/pin-tang
+  - name: Upstream_luksmeta_tests
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/luksmeta-tests
+    filter: tag:CI-Tier-1
+
+
+execute:
+    how: tmt
+
